@@ -1,0 +1,24 @@
+{
+    "name": "sink2-connector",
+    "config": {
+        "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+        "tasks.max": "1",
+        "topics": "email_service_emails",
+        "connection.url": "jdbc:postgresql://db3:5432/contact_centralization?user=app&password=helpplease",
+        "transforms": "unwrap,convertUpdatedAt,convertCreatedAt",
+        "transforms.unwrap.type": "io.debezium.transforms.UnwrapFromEnvelope",
+        "transforms.convertUpdatedAt.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+        "transforms.convertUpdatedAt.field": "updated_at",
+        "transforms.convertUpdatedAt.format": "yyyy-MM-dd HH:mm:ssZ",
+        "transforms.convertUpdatedAt.target.type": "Timestamp",
+        "transforms.convertCreatedAt.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+        "transforms.convertCreatedAt.field": "created_at",
+        "transforms.convertCreatedAt.format": "yyyy-MM-dd HH:mm:ssZ",
+        "transforms.convertCreatedAt.target.type": "Timestamp",
+        "auto.create": "true",
+        "auto.evolve": "true",
+        "insert.mode": "upsert",
+        "pk.fields": "id",
+        "pk.mode": "record_value"
+    }
+}
